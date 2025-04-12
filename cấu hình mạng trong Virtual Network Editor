@@ -1,0 +1,15 @@
+1. Connect a host virtual adapter to this network
+Ý nghĩa kỹ thuật: Tùy chọn này cho phép bạn kết nối một host virtual adapter (bộ điều hợp mạng ảo của máy chủ) với mạng ảo mà bạn đang cấu hình. Host virtual adapter là một bộ điều hợp mạng ảo được VMware tạo ra để quản lý kết nối mạng cho các máy ảo. Khi bạn bật tùy chọn này, mạng ảo sẽ được liên kết với bộ điều hợp mạng vật lý của máy chủ (như Ethernet hoặc Wi-Fi), cho phép máy ảo truy cập mạng ngoài.
+Cách hoạt động:
+Nếu bạn chọn chế độ Bridged, máy ảo sẽ xuất hiện như một thiết bị độc lập trên mạng vật lý, nhận địa chỉ IP từ router hoặc DHCP server của mạng. Điều này yêu cầu host virtual adapter được kết nối để đảm bảo máy ảo có thể giao tiếp với mạng ngoài.
+Nếu không bật tùy chọn này, mạng ảo có thể bị cô lập, nghĩa là máy ảo chỉ giao tiếp với nhau hoặc với máy chủ, tùy thuộc vào chế độ (ví dụ: Host-Only).
+Ví dụ minh họa: Giả sử bạn có một mạng LAN tại nhà với router cấp địa chỉ IP. Nếu bạn bật "Connect a host virtual adapter to this network" và chọn Bridged, máy ảo Ubuntu 22.04 của bạn sẽ nhận địa chỉ IP từ router (ví dụ: 192.168.1.100) và có thể truy cập internet hoặc ping các thiết bị khác trên mạng. Nếu không, máy ảo chỉ có thể giao tiếp trong mạng ảo nội bộ.
+Lưu ý: Tùy chọn này thường được sử dụng với các chế độ mạng như Bridged hoặc NAT, và bạn có thể cần chọn bộ điều hợp mạng vật lý cụ thể nếu máy chủ có nhiều card mạng.
+
+2. Use local DHCP service to distribute IP address to VMs
+Ý nghĩa kỹ thuật: Tùy chọn này bật dịch vụ DHCP (Dynamic Host Configuration Protocol) trên mạng ảo, cho phép VMware tự động phân phối địa chỉ IP cho các máy ảo kết nối với mạng đó. DHCP là giao thức tự động gán địa chỉ IP, giống như router ở nhà cấp IP cho điện thoại hoặc laptop của bạn.
+Cách hoạt động:
+Khi bật, VMware sẽ tạo một máy chủ DHCP ảo trên mạng ảo, gán địa chỉ IP từ một dải địa chỉ đã định trước (ví dụ: 192.168.200.0/24 cho mạng NAT). Các máy ảo sẽ tự động nhận địa chỉ IP mà không cần bạn cấu hình thủ công.
+Tùy chọn này thường được sử dụng trong các mạng NAT hoặc Host-Only, nơi bạn muốn các máy ảo giao tiếp với nhau và với máy chủ mà không cần truy cập mạng ngoài.
+Ví dụ minh họa: Giả sử bạn tạo một mạng ảo NAT cho hai máy ảo, VM1 và VM2. Nếu bạn bật "Use local DHCP service", VM1 có thể nhận địa chỉ IP 192.168.200.128, và VM2 nhận 192.168.200.129, cho phép chúng giao tiếp với nhau và với máy chủ, trong khi máy chủ dịch lưu lượng ra internet.
+Lưu ý: Nếu tắt tùy chọn này, bạn phải tự cấu hình địa chỉ IP tĩnh cho từng máy ảo, điều này có thể phức tạp nếu có nhiều máy ảo và dễ gây xung đột địa chỉ.
